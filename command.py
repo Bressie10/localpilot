@@ -25,8 +25,8 @@ def clear_shell():
 def hello():
     return 'Hello there, what do you require today?'
 
-def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
+def help():d
+    'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed. \nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\nTrace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -130,6 +130,36 @@ def networkScan():
         print()
         return validIps
 
+def trace(host):
+    result = subprocess.run(
+        ["traceroute", host],
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        return f'Could not find the trace route to {host}'
+
+    lines = result.stdout.splitlines()
+
+    hops = lines[1:]
+
+    output = [f"Route to {host}:"]
+
+    for hop in hops: 
+        output.append(hop.strip())
+
+    return "\n".join(output)
+
+def returnDNS(ip):
+    try:
+        result =  socket.gethostbyaddr(ip)
+        hostname = result[0]
+
+        return f"IP: {ip}\nHostname: {hostname}"
+
+    except socket.herror:
+        return f"No hostname found for {ip}"
 #--------------------------------------#
 
 #Command Calling
@@ -186,11 +216,22 @@ def commandCalling(userCmd):
     elif userCmd == 'ram':
         print(ramInfo())
 
+    elif userCmd == 'reversedns': 
+        if userCmdArgument1 is None:
+            print('Please provide a arguement for this command')
+        else:
+            print(returnDNS(userCmdArgument1))
+
     elif userCmd == 'storage':
         print(storageInfo())
 
     elif userCmd == 'system':
         print(machineInfo())
+
+    elif userCmd == 'trace':
+        if userCmdArgument1 is None:
+            print('Please provide a argument for this command')
+        print(trace(userCmdArgument1))
 
     else:
         print('Command not recognised :(')
