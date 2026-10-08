@@ -1,5 +1,5 @@
 #Imports
-
+import shutil
 import platform 
 import socket
 #--------------------------------------#
@@ -21,6 +21,14 @@ def machineInfo():
     processorArchitecture = platform.machine()
     return f'{operatingSystem}\n{hostname}\n{processorArchitecture}'
 
+def storageInfo():
+    total, used, free = shutil.disk_usage("/")
+
+    #Converts from bytes - GB
+    gb = 1024 ** 3
+    return f'Total: {total / gb:.2f}GB\nUsed: {used / gb:.2f}GB\nFree: {free / gb:.2f}GB'
+
+
 
 #--------------------------------------#
 
@@ -34,6 +42,9 @@ def commandCalling(userCmd):
 
     elif userCmd == 'help':
         print(help())
+
+    elif userCmd == 'storage':
+        print(storageInfo())
 
     elif userCmd == 'system':
         print(machineInfo())
