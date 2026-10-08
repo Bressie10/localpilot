@@ -37,11 +37,27 @@ def help():
     return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed. \nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\nTrace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.'
 
 #--------------------------------------#
+#Improved logic for identifiying commands
+#TO DO
+#Make it accept commands with arguments
+commands = {
+        'netscan' : networkScan,
+        'help' : help,
+        'hello' : hello,
+        'cpu' : cpuInfo,
+        'ram' : ramInfo,
+        'storage' : storageInfo,
+        'system' : machineInfo,
+        'ipaddr' : ipInfo
+    }
+#--------------------------------------#
 
 #Command Calling
 def commandCalling(userCmd):
     #Stores the different commands and arguments
     userCmdList = userCmd.split()
+    if not userCmdList:
+        return True
     userCmd = userCmdList[0]
 
     userCmdArgument1 = None
@@ -53,7 +69,6 @@ def commandCalling(userCmd):
     if len(userCmdList) >= 3: 
         userCmdArgument2 = userCmdList[2]
 
-
     #Checks if the command exists and calls the function
     if userCmd== 'exit':
         return exit_program()
@@ -61,29 +76,20 @@ def commandCalling(userCmd):
     elif userCmd == 'clear':
         clear_shell()
 
-    elif userCmd == 'cpu':
-        print(cpuInfo())
-
+    elif userCmd in commands:
+            print(commands[userCmd]())
+    
     elif userCmd == 'dns':
         if userCmdArgument1 is None:
-            return 'Please provide another argument for this command'
+            print('Please provide another argument for this command')
         else:
             print(dnsLookup(userCmdArgument1))
-    
-    elif userCmd == 'hello':
-        print(hello())
-
-    elif userCmd == 'ipaddr':
-        print(ipInfo())
-
-    elif userCmd == 'help':
-        print(help())
-
-    elif userCmd == 'netscan':
-        print(networkScan())
 
     elif userCmd == 'ping':
-        print(ping(userCmdArgument1))
+        if userCmdArgument1 is None:
+            print('Please provide another argument for this command')
+        else:
+            print(ping(userCmdArgument1))
 
     elif userCmd == 'port':
         if userCmdArgument1 is None or userCmdArgument2 is None:
@@ -91,30 +97,19 @@ def commandCalling(userCmd):
         else:
             print(portCheck(userCmdArgument1, userCmdArgument2))
 
-
-    elif userCmd == 'ram':
-        print(ramInfo())
-
     elif userCmd == 'reversedns': 
         if userCmdArgument1 is None:
             print('Please provide a arguement for this command')
         else:
             print(returnDNS(userCmdArgument1))
 
-    elif userCmd == 'storage':
-        print(storageInfo())
-
-    elif userCmd == 'system':
-        print(machineInfo())
-
     elif userCmd == 'trace':
         if userCmdArgument1 is None:
             print('Please provide a argument for this command')
         else:
             print(trace(userCmdArgument1))
-
     else:
         print('Command not recognised :(')
 
-    return True
-#--------------------------------------#
+    #DO NOT DELETE KEEPS MAIN PROGAM RUNNING, LAPTOP WILL BRICK!!!!!!!!!(It won't rlly I just keep deleting this by accident)
+    return True 
