@@ -1,4 +1,5 @@
 #Imports
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import subprocess
 import os
 import psutil
@@ -67,8 +68,8 @@ def ping(host):
     )
 
     if result.returncode == 0:
-        time_value = result.stdout.split("time=")[1].split()[0]
-        return f"Host '{host}' can be reached\nTime: {time_value}"
+
+        return f"Host '{host}' can be reached"
     else:
         return f"Host '{host}' cannot be reached"
 
@@ -95,10 +96,39 @@ def portCheck(host, port):
         s.close()
 
         if returnCode == 0: 
-            return 'Port available'
+            return True
         else:
-            return 'Port busy or closed'
+            return False
 
+def networkScan():
+    ip = ipInfo()
+    semiIps = ip.split('.')
+    validIps = []
+
+    ips = []
+
+    for lastOctet in range(1, 255): 
+            full_ip = f'{semiIps[0]}.{semiIps[1]}.{semiIps[2]}.{lastOctet}'
+            ips.append(full_ip)
+
+    with ThreadPoolExecutor(max_workers=100) as executor:
+        futures = {executor.submit(ping, ip): ip for ip in ips}
+
+        completed = 0
+
+        for future in as_completed(futures):
+            ip = futures[future]
+            result = future.result()
+
+            completed += 1
+
+            print(f'Scanning {completed}/254', end='\r')
+
+            if result:
+                validIps.append(ip)
+
+        print()
+        return validIps
 
 #--------------------------------------#
 
@@ -139,6 +169,9 @@ def commandCalling(userCmd):
 
     elif userCmd == 'help':
         print(help())
+
+    elif userCmd == 'netscan':
+        print(networkScan())
 
     elif userCmd == 'ping':
         print(ping(userCmdArgument1))
