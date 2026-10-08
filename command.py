@@ -1,4 +1,5 @@
 #Imports
+import os
 import psutil
 import shutil
 import platform 
@@ -11,13 +12,16 @@ def bytesToGB(bytesToBeConverted):
 #Command Logic
 def exit_program():
     print("Thanks for using local pilot hopefully your laptop isn't bricked :)")
-    return False 
+    return False
+
+def clear_shell():
+    os.system('cls' if os.name == 'nt' else 'clear') 
 
 def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -40,8 +44,17 @@ def ramInfo():
 def cpuInfo():
     cpu = psutil
 
-    return f'CPU Usage: {cpu.cpu_percent()}%\nPhysical Cores: {cpu.cpu_count(logical=False)}\nLogical Cores: {cpu.cpu_count(logical=True)
-}'
+    return f'CPU Usage: {cpu.cpu_percent()}%\nPhysical Cores: {cpu.cpu_count(logical=False)}\nLogical Cores: {cpu.cpu_count(logical=True)}'
+
+def ipInfo(): 
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('8.8.8.8', 80))
+
+    ip_address = s.getsockname()[0]
+
+    s.close()
+
+    return ip_address
 
 #--------------------------------------#
 
@@ -50,11 +63,17 @@ def commandCalling(userCmd):
     if userCmd == 'exit':
         return exit_program()
 
+    elif userCmd == 'clear':
+        clear_shell()
+
     elif userCmd == 'cpu':
         print(cpuInfo())
             
     elif userCmd == 'hello':
         print(hello())
+
+    elif userCmd == 'ipaddr':
+        print(ipInfo())
 
     elif userCmd == 'help':
         print(help())
