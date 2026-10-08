@@ -1,4 +1,5 @@
 #Imports
+import subprocess
 import os
 import psutil
 import shutil
@@ -21,7 +22,7 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -33,7 +34,6 @@ def storageInfo():
     total, used, free = shutil.disk_usage("/")
 
     #Converts from bytes - GB
-    gb = 1024 ** 3
     return f'Total Disk Space: {bytesToGB(total)}GB\nUsed Disk Space: {bytesToGB(used)}GB\nFree Disk Space: {bytesToGB(free)}GB'
 
 def ramInfo():
@@ -56,11 +56,27 @@ def ipInfo():
 
     return ip_address
 
+def ping(host):
+    result = subprocess.run(
+        ['ping', '-c', '1', host]
+    )
+
+    if result.returncode == 0:
+        return f"Host '{host}' can be reached"
+    else:
+        return f"Host '{host}' cannot be reached"
+
+
 #--------------------------------------#
 
 #Command Calling
 def commandCalling(userCmd):
-    if userCmd == 'exit':
+    userCmdList = userCmd.split()
+    userCmd = userCmdList[0]
+    userCmdArguments = userCmdList[1]
+
+
+    if userCmd== 'exit':
         return exit_program()
 
     elif userCmd == 'clear':
@@ -77,6 +93,9 @@ def commandCalling(userCmd):
 
     elif userCmd == 'help':
         print(help())
+
+    elif userCmd == 'ping':
+        print(ping(userCmdArguments))
 
     elif userCmd == 'ram':
         print(ramInfo())
