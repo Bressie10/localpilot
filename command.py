@@ -22,7 +22,7 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -70,6 +70,15 @@ def ping(host):
         return f"Host '{host}' cannot be reached"
 
 
+def dnsLookup(host):
+    try:
+        dns = socket.gethostbyname(host)
+    except socket.gaierror:
+        return 'Could not resolve host'
+
+    return dns 
+
+
 #--------------------------------------#
 
 #Command Calling
@@ -90,7 +99,10 @@ def commandCalling(userCmd):
 
     elif userCmd == 'cpu':
         print(cpuInfo())
-            
+
+    elif userCmd == 'dns':
+        print(dnsLookup(userCmdArguments))
+    
     elif userCmd == 'hello':
         print(hello())
 
