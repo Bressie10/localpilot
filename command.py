@@ -58,11 +58,14 @@ def ipInfo():
 
 def ping(host):
     result = subprocess.run(
-        ['ping', '-c', '1', host]
+        ['ping', '-c', '1', host],
+        capture_output=True,
+        text=True 
     )
 
     if result.returncode == 0:
-        return f"Host '{host}' can be reached"
+        time_value = result.stdout.split("time=")[1].split()[0]
+        return f"Host '{host}' can be reached\nTime: {time_value}"
     else:
         return f"Host '{host}' cannot be reached"
 
@@ -73,7 +76,10 @@ def ping(host):
 def commandCalling(userCmd):
     userCmdList = userCmd.split()
     userCmd = userCmdList[0]
-    userCmdArguments = userCmdList[1]
+    if len(userCmdList) > 1:
+        userCmdArguments = userCmdList[1]
+    else:
+        userCmdArguments = None
 
 
     if userCmd== 'exit':
