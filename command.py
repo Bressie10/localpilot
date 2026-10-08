@@ -6,9 +6,12 @@ import shutil
 import platform 
 import socket
 #--------------------------------------#
+
+#Conversions
 def bytesToGB(bytesToBeConverted):
     return  f'{bytesToBeConverted / (1024**3):.2f}'
 
+#--------------------------------------#
 
 #Command Logic
 def exit_program():
@@ -22,7 +25,7 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nIpAddr: Displays your Ip Address.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -78,19 +81,44 @@ def dnsLookup(host):
 
     return dns 
 
+def portCheck(host, port):
+        try: 
+            port = int(port)
+        except ValueError:
+            return 'Port must be a number'
+        
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+
+        returnCode = s.connect_ex((host, port))
+
+        s.close()
+
+        if returnCode == 0: 
+            return 'Port available'
+        else:
+            return 'Port busy or closed'
+
 
 #--------------------------------------#
 
 #Command Calling
 def commandCalling(userCmd):
+    #Stores the different commands and arguments
     userCmdList = userCmd.split()
     userCmd = userCmdList[0]
-    if len(userCmdList) > 1:
-        userCmdArguments = userCmdList[1]
-    else:
-        userCmdArguments = None
+
+    userCmdArgument1 = None
+    userCmdArgument2 = None
+
+    if len(userCmdList) >= 2:
+        userCmdArgument1 = userCmdList[1]
+
+    if len(userCmdList) >= 3: 
+        userCmdArgument2 = userCmdList[2]
 
 
+    #Checks if the command exists and calls the function
     if userCmd== 'exit':
         return exit_program()
 
@@ -101,7 +129,7 @@ def commandCalling(userCmd):
         print(cpuInfo())
 
     elif userCmd == 'dns':
-        print(dnsLookup(userCmdArguments))
+        print(dnsLookup(userCmdArgument1))
     
     elif userCmd == 'hello':
         print(hello())
@@ -113,7 +141,14 @@ def commandCalling(userCmd):
         print(help())
 
     elif userCmd == 'ping':
-        print(ping(userCmdArguments))
+        print(ping(userCmdArgument1))
+
+    elif userCmd == 'port':
+        if userCmdArgument1 is None or userCmdArgument2 is None:
+            print('Please provide two arguments for this command host & port')
+        else:
+            print(portCheck(userCmdArgument1, userCmdArgument2))
+
 
     elif userCmd == 'ram':
         print(ramInfo())
