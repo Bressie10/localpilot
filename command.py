@@ -17,7 +17,7 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return '1.Exit: This is used to exit the program\n2.Hello: This is used to greet the program(Hint: Good way to see if it\'s running!)\n3.Help: Shows all available commands.\n4.Ram: Displays total, used and available RAM\n5.Storage: Shows total storage, used storage and Free storage in GB\n6.System: Displays your system details'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nRam: Displays total, used and available RAM\nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details'
 
 def machineInfo():
     operatingSystem = platform.system()
@@ -37,7 +37,11 @@ def ramInfo():
 
     return f'Total RAM: {bytesToGB(ram.total)}GB\nUsed RAM: {bytesToGB(ram.used)}GB\nAvailable Ram: {bytesToGB(ram.available)}GB'
 
+def cpuInfo():
+    cpu = psutil
 
+    return f'CPU Usage: {cpu.cpu_percent()}%\nPhysical Cores: {cpu.cpu_count(logical=False)}\nLogical Cores: {cpu.cpu_count(logical=True)
+}'
 
 #--------------------------------------#
 
@@ -45,6 +49,9 @@ def ramInfo():
 def commandCalling(userCmd):
     if userCmd == 'exit':
         return exit_program()
+
+    elif userCmd == 'cpu':
+        print(cpuInfo())
             
     elif userCmd == 'hello':
         print(hello())
