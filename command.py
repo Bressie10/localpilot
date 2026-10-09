@@ -49,7 +49,6 @@ commands = {
         'storage' : (storageInfo, 0),
         'system' : (machineInfo, 0),
         'ipaddr' : (ipInfo, 0),
-        'clear' : (clear_shell, 0),
         'dns'  : (dnsLookup, 1),
         'port' : (portCheck, 2),
         'ping' : (ping, 1),
@@ -94,7 +93,11 @@ def commandCalling(userCmd):
             else:
                 print(commands[userCmd][0](userCmdArgument1, userCmdArgument2))
     elif userCmd == 'exit':
-            exit_program()
+            return exit_program()
+
+    elif userCmd == 'clear':
+        clear_shell()
+
 
     else:
         print('Command not recognised :(')
