@@ -17,6 +17,10 @@ from networking_tools import (
     returnDNS
 )
 
+from filesystem_tools import (
+     pwdFunc
+)
+
 #Imported Libarires
 import os
 
@@ -34,7 +38,7 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed. \nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\nTrace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.'
+    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nPWD: Returns your current working directory\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed. \nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\nTrace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.'
 
 #--------------------------------------#
 #Improved logic for identifiying commands
@@ -53,7 +57,8 @@ commands = {
         'port' : (portCheck, 2),
         'ping' : (ping, 1),
         'reverse_dns' : (returnDNS, 1),
-        'trace' : (trace, 1)
+        'trace' : (trace, 1),
+        'pwd' : (pwdFunc, 0)
     }
 #--------------------------------------#
 
