@@ -18,7 +18,8 @@ from networking_tools import (
 )
 
 from filesystem_tools import (
-     pwdFunc
+    pwdFunc,
+    lsFunc
 )
 
 #Imported Libarires
@@ -58,7 +59,8 @@ commands = {
         'ping' : (ping, 1),
         'reverse_dns' : (returnDNS, 1),
         'trace' : (trace, 1),
-        'pwd' : (pwdFunc, 0)
+        'pwd' : (pwdFunc, 0),
+        'ls' : (lsFunc, 1.5),
     }
 #--------------------------------------#
 
@@ -89,6 +91,13 @@ def commandCalling(userCmd):
         if commands[userCmd][1] == 1:
             if userCmdArgument1 is None:
                         print('Please provide a arguement for this command')
+            else:
+                print(commands[userCmd][0](userCmdArgument1))
+
+        if commands[userCmd][1] == 1.5:
+            if userCmdArgument1 == None:
+                print(commands[userCmd][0]())
+            
             else:
                 print(commands[userCmd][0](userCmdArgument1))
 
