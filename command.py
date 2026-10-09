@@ -41,14 +41,21 @@ def help():
 #TO DO
 #Make it accept commands with arguments
 commands = {
-        'netscan' : networkScan,
-        'help' : help,
-        'hello' : hello,
-        'cpu' : cpuInfo,
-        'ram' : ramInfo,
-        'storage' : storageInfo,
-        'system' : machineInfo,
-        'ipaddr' : ipInfo
+        'netscan' : (networkScan, 0),
+        'help' : (help, 0),
+        'hello' : (hello, 0),
+        'cpu' : (cpuInfo, 0), 
+        'ram' : (ramInfo, 0), 
+        'storage' : (storageInfo, 0),
+        'system' : (machineInfo, 0),
+        'ipaddr' : (ipInfo, 0),
+        'exit' : (exit_program, 0),
+        'clear' : (clear_shell, 0),
+        'dns'  : (dnsLookup, 1),
+        'port' : (portCheck, 2),
+        'ping' : (ping, 1),
+        'reverse_dns' : (returnDNS, 1),
+        'trace' : (trace, 1)
     }
 #--------------------------------------#
 
@@ -69,45 +76,23 @@ def commandCalling(userCmd):
     if len(userCmdList) >= 3: 
         userCmdArgument2 = userCmdList[2]
 
+#---------------------------------------#
+
     #Checks if the command exists and calls the function
-    if userCmd== 'exit':
-        return exit_program()
+    if userCmd in commands:
+        if commands[userCmd][1] == 0:
+            print(commands[userCmd][0]())
 
-    elif userCmd == 'clear':
-        clear_shell()
+        if commands[userCmd][1] == 1:
+            if userCmdArgument1 is None:
+                        print('Please provide a arguement for this command')
+            print(commands[userCmd][0](userCmdArgument1))
 
-    elif userCmd in commands:
-            print(commands[userCmd]())
-    
-    elif userCmd == 'dns':
-        if userCmdArgument1 is None:
-            print('Please provide another argument for this command')
-        else:
-            print(dnsLookup(userCmdArgument1))
+        if commands[userCmd][1] == 2:
+            if userCmdArgument1 is None or userCmdArgument2 is None:
+                print('Please provide two arguments for this command host & port')
+            print(commands[userCmd][0](userCmdArgument1, userCmdArgument2))
 
-    elif userCmd == 'ping':
-        if userCmdArgument1 is None:
-            print('Please provide another argument for this command')
-        else:
-            print(ping(userCmdArgument1))
-
-    elif userCmd == 'port':
-        if userCmdArgument1 is None or userCmdArgument2 is None:
-            print('Please provide two arguments for this command host & port')
-        else:
-            print(portCheck(userCmdArgument1, userCmdArgument2))
-
-    elif userCmd == 'reversedns': 
-        if userCmdArgument1 is None:
-            print('Please provide a arguement for this command')
-        else:
-            print(returnDNS(userCmdArgument1))
-
-    elif userCmd == 'trace':
-        if userCmdArgument1 is None:
-            print('Please provide a argument for this command')
-        else:
-            print(trace(userCmdArgument1))
     else:
         print('Command not recognised :(')
 
