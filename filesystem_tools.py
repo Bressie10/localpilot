@@ -1,8 +1,14 @@
 from pathlib import Path 
 import os
+import subprocess
 
 def pwdFunc():
-    return Path.cwd()
+    result = subprocess.run(
+        ["./native/pwd"],
+        capture_output=True,
+        text=True
+    )
+    return result.stdout.strip()
 
 def pathCleaning(target_item):
     target_item = Path(target_item)
