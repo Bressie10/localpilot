@@ -21,7 +21,8 @@ from filesystem_tools import (
     pwdFunc,
     lsFunc,
     cdFunc,
-    mkdirFunc
+    mkdirFunc,
+    touchFunc
 )
 
 #Imported Libarires
@@ -64,7 +65,8 @@ commands = {
         'pwd' : (pwdFunc, 0),
         'ls' : (lsFunc, 1.5),
         'cd' : (cdFunc, 1),
-        'mkdir' : (mkdirFunc, 1)
+        'mkdir' : (mkdirFunc, 1),
+        'touch' : (touchFunc,1)
     }
 #--------------------------------------#
 

@@ -81,3 +81,20 @@ def mkdirFunc(target_dir):
     except FileExistsError:
         return 'Folder already exists'
 
+def touchFunc(targetFile):
+    targetFile = Path(targetFile)
+         
+    if targetFile.is_absolute(): 
+        fullPath = targetFile
+         
+    else:
+        initialPath = pwdFunc()
+        fullPath = initialPath / targetFile
+
+    fileName = fullPath.name 
+
+    try:
+        fullPath.touch(exist_ok=False)  
+        return f'Success: {fileName} was created'
+    except:
+        return 'This file already exists'
