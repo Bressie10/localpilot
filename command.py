@@ -25,7 +25,9 @@ from filesystem_tools import (
     touchFunc,
     rmFunction,
     mvFunction,
-    cpFunc
+    cpFunc,
+    catFunc,
+    findFunc
 )
 
 #Imported Libarires
@@ -72,7 +74,9 @@ commands = {
         'touch' : (touchFunc, 1),
         'rm' : (rmFunction, 1),
         'mv' : (mvFunction, 2),
-        'cp': (cpFunc, 2)
+        'cp': (cpFunc, 2),
+        'cat' : (catFunc, 1),
+        'find' : (findFunc, 2)
     }
 #--------------------------------------#
 

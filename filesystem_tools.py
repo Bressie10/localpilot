@@ -148,3 +148,23 @@ def cpFunc(source, destination):
 
     return f'File copied to {copyLocation}'
 
+def catFunc(source):
+    sourcePath = pathCleaning(source)
+
+    try:
+        fileContent = sourcePath.read_text(encoding=None, errors=None, newline= None)
+        return fileContent
+    except FileNotFoundError:
+        return f'Could not find {sourcePath.name}'
+    except IsADirectoryError as e:
+        return f'Cannot read directory: {e}'
+
+def findFunc(pattern):
+    pattern = f"'*{pattern}*'"
+    startingDirPath = pwdFunc()
+    results = list(startingDirPath.rglob(pattern))
+    if len(results) == 0:
+        return f'No files found'
+    
+    results = '\n'.join(str(item) for item in results)
+    return f'These patterns were found:\n{results}'
