@@ -4,6 +4,19 @@ import os
 def pwdFunc():
     return Path.cwd()
 
+def pathCleaning(target_item):
+    target_item = Path(target_item)
+         
+    if target_item.is_absolute(): 
+        fullPath = target_item
+         
+    else:
+        initialPath = pwdFunc()
+        fullPath = initialPath / target_item
+
+    return fullPath
+
+     
 #This took way too long for some reason just don't touch it pretty please  
 def lsFunc(hidden = None):
     path = pwdFunc()
@@ -42,16 +55,7 @@ def cdFunc(target_dir):
         os.chdir(home)
         return 'You are home'
 
-    #Converts it into a path
-    target_dir = Path(target_dir)
-
-    if target_dir.is_absolute(): 
-        fullPath = target_dir
-
-    else:
-        initialPath = pwdFunc()
-        fullPath = initialPath / target_dir
-
+    fullPath = pathCleaning(target_dir)
 
     try:
         os.chdir(fullPath)
@@ -65,14 +69,7 @@ def cdFunc(target_dir):
 
 def mkdirFunc(target_dir):
 
-    target_dir = Path(target_dir)
-    
-    if target_dir.is_absolute(): 
-            fullPath = target_dir
-    
-    else:
-        initialPath = pwdFunc()
-        fullPath = initialPath / target_dir
+    fullPath = pathCleaning(target_dir)
 
     try:
         fullPath.mkdir()
@@ -82,19 +79,27 @@ def mkdirFunc(target_dir):
         return 'Folder already exists'
 
 def touchFunc(targetFile):
-    targetFile = Path(targetFile)
-         
-    if targetFile.is_absolute(): 
-        fullPath = targetFile
-         
-    else:
-        initialPath = pwdFunc()
-        fullPath = initialPath / targetFile
+    fullPath = pathCleaning(targetFile)
 
     fileName = fullPath.name 
 
     try:
         fullPath.touch(exist_ok=False)  
         return f'Success: {fileName} was created'
-    except:
+    except FileExistsError:
         return 'This file already exists'
+
+def rmFunction(targeted_file):
+    fullPath = pathCleaning(targeted_file)
+    fileName = fullPath.name
+
+    try:
+        fullPath.unlink()
+
+    except FileNotFoundError:
+        return f'Could not find {fileName}'
+
+    except IsADirectoryError:
+        return f'{fileName} is a directory'
+
+    return f'{fileName} was deleted'
