@@ -103,3 +103,23 @@ def rmFunction(targeted_file):
         return f'{fileName} is a directory'
 
     return f'{fileName} was deleted'
+
+def mvFunction(source, destination):
+    current_location = pathCleaning(source)
+    future_location = pathCleaning(destination)
+
+    destinationFileName = future_location.name
+
+    if not current_location.exists():
+        return 'Cannot find specified file' 
+
+    if not future_location.exists():
+        current_location.rename(future_location)
+        return f'File moved/renamed to {destinationFileName}'
+
+    try:
+        new_location = current_location.move_into(future_location)
+
+    except NotADirectoryError: 
+        return 'Location specified is not a directory'
+    return f'File moved to {new_location}'
