@@ -12,4 +12,4 @@ while programRunning:
 
     programRunning = commandCalling(userCmd)
 
-    print(f'You ran the command {userCmd}')
+

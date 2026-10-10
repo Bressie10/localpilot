@@ -1,4 +1,5 @@
 from pathlib import Path 
+import os
 
 def pwdFunc():
     return Path.cwd()
@@ -33,4 +34,31 @@ def lsFunc(hidden = None):
         return f'{strFileOutput}\n\nThere is {len(fileOutput)} item(s) in this directory'
     
     return 'There are no items in this directory'
- 
+
+#Believe it or not everything ran in this function first try, Top 1 so far
+def cdFunc(target_dir):
+    if target_dir == '~':
+        home = Path.home()
+        os.chdir(home)
+        return 'You are home'
+
+    #Converts it into a path
+    target_dir = Path(target_dir)
+
+    if target_dir.is_absolute(): 
+        fullPath = target_dir
+
+    else:
+        initialPath = pwdFunc()
+        fullPath = initialPath / target_dir
+
+
+    try:
+        os.chdir(fullPath)
+    except FileNotFoundError:
+        return "This folder doesn't exist."
+
+    except NotADirectoryError:
+        return 'This is not a directory'
+
+    return f'You are in {pwdFunc()}'
