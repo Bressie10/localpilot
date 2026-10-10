@@ -20,7 +20,8 @@ from networking_tools import (
 from filesystem_tools import (
     pwdFunc,
     lsFunc,
-    cdFunc
+    cdFunc,
+    mkdirFunc
 )
 
 #Imported Libarires
@@ -62,7 +63,8 @@ commands = {
         'trace' : (trace, 1),
         'pwd' : (pwdFunc, 0),
         'ls' : (lsFunc, 1.5),
-        'cd' : (cdFunc, 1)
+        'cd' : (cdFunc, 1),
+        'mkdir' : (mkdirFunc, 1)
     }
 #--------------------------------------#
 

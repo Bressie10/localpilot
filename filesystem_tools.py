@@ -62,3 +62,22 @@ def cdFunc(target_dir):
         return 'This is not a directory'
 
     return f'You are in {pwdFunc()}'
+
+def mkdirFunc(target_dir):
+
+    target_dir = Path(target_dir)
+    
+    if target_dir.is_absolute(): 
+            fullPath = target_dir
+    
+    else:
+        initialPath = pwdFunc()
+        fullPath = initialPath / target_dir
+
+    try:
+        fullPath.mkdir()
+        return "Folder created!(I'm surprised it works tbh)"
+
+    except FileExistsError:
+        return 'Folder already exists'
+
