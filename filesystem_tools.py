@@ -123,3 +123,28 @@ def mvFunction(source, destination):
     except NotADirectoryError: 
         return 'Location specified is not a directory'
     return f'File moved to {new_location}'
+
+def cpFunc(source, destination):
+    source_location = pathCleaning(source)
+    destination_location = pathCleaning(destination) 
+    destination_location_file = destination_location / source_location.name
+
+    if not source_location.exists():
+        return 'Could not find source location'
+
+    if not destination_location.is_dir():
+        return 'Destination is not a directory'
+
+    if destination_location_file.exists():
+        permission = input(f'Do you wish to overwrite {destination_location_file} y/n: ')
+        permission = permission.lower()
+        if permission == 'n':
+            return 'Permission denied'
+        elif permission != 'y':
+            return 'Please enter a valid command'
+
+
+    copyLocation = source_location.copy_into(destination_location)
+
+    return f'File copied to {copyLocation}'
+

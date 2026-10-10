@@ -24,7 +24,8 @@ from filesystem_tools import (
     mkdirFunc,
     touchFunc,
     rmFunction,
-    mvFunction
+    mvFunction,
+    cpFunc
 )
 
 #Imported Libarires
@@ -70,7 +71,8 @@ commands = {
         'mkdir' : (mkdirFunc, 1),
         'touch' : (touchFunc, 1),
         'rm' : (rmFunction, 1),
-        'mv' : (mvFunction, 2)
+        'mv' : (mvFunction, 2),
+        'cp': (cpFunc, 2)
     }
 #--------------------------------------#
 
@@ -113,7 +115,7 @@ def commandCalling(userCmd):
 
         if commands[userCmd][1] == 2:
             if userCmdArgument1 is None or userCmdArgument2 is None:
-                print('Please provide two arguments for this command host & port')
+                print('Please provide two arguments for this command')
             else:
                 print(commands[userCmd][0](userCmdArgument1, userCmdArgument2))
     elif userCmd == 'exit':
