@@ -30,6 +30,10 @@ from filesystem_tools import (
     findFunc
 )
 
+from process_management import (
+    psFunc
+)
+
 #Imported Libarires
 import os
 
@@ -54,6 +58,7 @@ Help: Shows all available commands.
 Ping: Pings supplied Argument
 Port: Checks if port is available
 PWD: Returns your current working directory
+Ps: Shows all running processes
 IpAddr: Displays your Ip Address.
 netscan: Scans your network for active ips
 Ram: Displays total, used and available RAM
@@ -99,7 +104,8 @@ commands = {
         'mv' : (mvFunction, 2),
         'cp': (cpFunc, 2),
         'cat' : (catFunc, 1),
-        'find' : (findFunc, 1)
+        'find' : (findFunc, 1),
+        'ps' : (psFunc, 1.5)
     }
 #--------------------------------------#
 
@@ -134,11 +140,8 @@ def commandCalling(userCmd):
                 print(commands[userCmd][0](userCmdArgument1))
 
         if commands[userCmd][1] == 1.5:
-            if userCmdArgument1 == None:
-                print(commands[userCmd][0]())
-            
-            else:
                 print(commands[userCmd][0](userCmdArgument1))
+            
 
         if commands[userCmd][1] == 2:
             if userCmdArgument1 is None or userCmdArgument2 is None:
