@@ -8,7 +8,7 @@ def pwdFunc():
         capture_output=True,
         text=True
     )
-    return result.stdout.strip()
+    return Path(result.stdout.strip())
 
 def pathCleaning(target_item):
     target_item = Path(target_item)

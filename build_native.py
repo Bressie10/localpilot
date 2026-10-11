@@ -28,7 +28,7 @@ def build_native():
         )
 
         if result.returncode != 0: 
-            print(f"'Failed to compile {program}")
+            print(f"Failed to compile {program}")
             print(result.stderr)
         else:
             print(f"Compiled {program}")
