@@ -76,7 +76,7 @@ commands = {
         'mv' : (mvFunction, 2),
         'cp': (cpFunc, 2),
         'cat' : (catFunc, 1),
-        'find' : (findFunc, 2)
+        'find' : (findFunc, 1)
     }
 #--------------------------------------#
 
@@ -134,3 +134,55 @@ def commandCalling(userCmd):
 
     #DO NOT DELETE KEEPS MAIN PROGAM RUNNING, LAPTOP WILL BRICK!!!!!!!!!(It won't rlly I just keep deleting this by accident)
     return True 
+
+#Updated command calling function for web hosting  
+
+def commandCallingWeb(userCmd):
+    userCmdList = userCmd.split()
+
+    if not userCmdList:
+         return ""
+
+    userCmd = userCmdList[0]
+
+    userCmdArgument1 = None
+    userCmdArgument2 = None
+
+    if len(userCmdList) >= 2:
+        userCmdArgument1 = userCmdList[1]
+
+    if len(userCmdList) >= 3:
+         userCmdArgument2 = userCmdList[2]
+
+    if userCmd in commands:
+        argCount = commands[userCmd][1]
+        commandFunc = commands[userCmd][0]
+
+        if argCount == 0:
+           return commandFunc()
+
+        if argCount == 1:
+            if userCmdArgument1 is None:
+                return "Please provide an argument for this command"
+            return commandFunc(userCmdArgument1)
+
+        if argCount == 1.5:
+            if userCmdArgument1 is None:
+                return commandFunc()
+            return commandFunc(userCmdArgument1)
+
+        if argCount == 2:
+            if userCmdArgument1 is None or userCmdArgument2 is None:
+                return "Please provide two arguments for this command"
+            return commandFunc(userCmdArgument1, userCmdArgument2)
+
+    elif userCmd == "exit":
+        return "Exit is disabled in the web demo"
+
+    elif userCmd == "clear": 
+        return ""
+
+    return "Command not recognied :()"
+
+
+    
