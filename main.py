@@ -8,7 +8,7 @@ programRunning = True
 #Takes user input
 while programRunning:
     userCmd = input('Please enter your command: ')
-    userCmd = userCmd.lower().strip()
+    userCmd = userCmd.strip()
 
     programRunning = commandCalling(userCmd)
 

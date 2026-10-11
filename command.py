@@ -115,7 +115,7 @@ def commandCalling(userCmd):
     userCmdList = userCmd.split()
     if not userCmdList:
         return True
-    userCmd = userCmdList[0]
+    userCmd = userCmdList[0].lower()
 
     userCmdArgument1 = None
     userCmdArgument2 = None
@@ -169,7 +169,7 @@ def commandCallingWeb(userCmd):
     if not userCmdList:
          return ""
 
-    userCmd = userCmdList[0]
+    userCmd = userCmdList[0].lower()
 
     userCmdArgument1 = None
     userCmdArgument2 = None
@@ -209,6 +209,3 @@ def commandCallingWeb(userCmd):
         return ""
 
     return "Command not recognised :("
-
-
-    

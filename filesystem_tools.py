@@ -1,16 +1,8 @@
 from pathlib import Path 
 import os
-import subprocess
 
 def pwdFunc():
-    native_pwd = Path(__file__).parent / "native" / "pwd"
-
-    result = subprocess.run(
-        [str(native_pwd)],
-        capture_output=True,
-        text=True
-    )
-    return Path(result.stdout.strip())
+    return Path.cwd()
 
 def pathCleaning(target_item):
     target_item = Path(target_item)
@@ -168,7 +160,7 @@ def catFunc(source):
         return f'Cannot read directory: {e}'
 
 def findFunc(pattern):
-    pattern = f"'*{pattern}*'"
+    pattern = f"*{pattern}*"
     startingDirPath = pwdFunc()
     results = list(startingDirPath.rglob(pattern))
     if len(results) == 0:
