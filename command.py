@@ -47,7 +47,25 @@ def hello():
     return 'Hello there, what do you require today?'
 
 def help():
-    return 'CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\nDNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\nHelp: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\nPWD: Returns your current working directory\nIpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\nRam: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed. \nStorage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\nTrace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.'
+    return '''
+    CPU: Shows CPU usage, Physical Cores Count and Logical Cores Count. Exit: This is used to exit the program\n
+    DNS: Supples you with the ip address of the host\nHello: This is used to greet the program(Hint: Good way to see if it\'s running!)\n
+    Help: Shows all available commands.\nPing: Pings supplied Argument\nPort: Checks if port is available\n
+    PWD: Returns your current working directory\n
+    IpAddr: Displays your Ip Address.\nnetscan: Scans your network for active ips\n
+    Ram: Displays total, used and available RAM\nReturnDNS: Is your dns comand reversed.\n
+    Storage: Shows total storage, used storage and Free storage in GB\nSystem: Displays your system details\n
+    Trace: This used to measure the diffrent routers your packet goes tohrough the reach the destenation.
+    Ls: Lists all files and directories in your pwd\n
+    cd: To navigate to different directories in your pwd\n
+    mkdir: Makes a direcotry in your pwd with the name provided\n
+    touch: Creates a file in your pwd\n 
+    rm: Deletes a file in your pwd\n
+    mv: Moves a file or directory to specified location or renames file\n
+    cp: Copies a file or directory to specified location or renames file\n
+    cat: Returns data in file\n 
+    find: Finds a file name recursively from your pwd\n
+    '''
 
 #--------------------------------------#
 #Improved logic for identifiying commands
