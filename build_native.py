@@ -5,7 +5,8 @@ def build_native():
     native_dir = Path(__file__).parent / "native"
 
     programs = [
-        'pwd'
+        'pwd',
+        'ps'
     ]
 
     for program in programs:
