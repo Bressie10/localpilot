@@ -1,3 +1,7 @@
+from build_native import build_native
+
+build_native()
+
 import streamlit as st
 from command import commandCallingWeb
 
