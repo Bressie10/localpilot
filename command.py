@@ -182,7 +182,7 @@ def commandCallingWeb(userCmd):
     elif userCmd == "clear": 
         return ""
 
-    return "Command not recognied :()"
+    return "Command not recognised :("
 
 
     
