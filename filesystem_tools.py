@@ -3,8 +3,10 @@ import os
 import subprocess
 
 def pwdFunc():
+    native_pwd = Path(__file__).parent / "native" / "pwd"
+
     result = subprocess.run(
-        ["./native/pwd"],
+        [str(native_pwd)],
         capture_output=True,
         text=True
     )
